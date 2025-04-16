@@ -1,38 +1,38 @@
 package com.portfolio.contact_service.entity;
 
 import com.google.type.DateTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @Table(name = "visitor_contacts")
 public class VisitorContact {
 
     @Id
-    @Column(name = "id")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "visitor_id", nullable = false)
-    private int visitorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "visitor_id", nullable = false)
+    private Visitor visitor;
 
-    @Column(name = "subject", nullable = false)
+    @Column(nullable = false)
     private String subject;
 
-    @Column(name = "body", nullable = false)
+    @Lob
     private String body;
 
-    @Column(name = "created_at")
-    private DateTime createdAt;
-
-    public VisitorContact(int visitorId, String subject, String body) {
-        this.visitorId = visitorId;
-        this.subject = subject;
-        this.body = body;
-    }
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 }

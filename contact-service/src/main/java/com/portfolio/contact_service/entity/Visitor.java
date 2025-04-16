@@ -1,34 +1,44 @@
 package com.portfolio.contact_service.entity;
 
 import com.google.type.DateTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @Table(name = "visitors")
 public class Visitor {
 
     @Id
-    @Column(name = "id")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "email", nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(name = "action_id", nullable = false)
-    private int actionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "action_id")
+    private Action action;
 
-    @Column(name = "created_at")
-    private DateTime createdAt;
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
-    public Visitor(String email, int actionId) {
-        this.email = email;
-        this.actionId = actionId;
+    @OneToMany(mappedBy = "visitor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VisitorContact> contacts = new ArrayList<>();
+
+    public Visitor(String email, Action action) {
+
     }
 }

@@ -1,30 +1,37 @@
 package com.portfolio.contact_service.entity;
 
 import com.google.type.DateTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @Table(name = "actions")
 public class Action {
 
     @Id
-    @Column(name = "id")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "action_type", nullable = false)
+    @Column(name = "action_type", nullable = false, unique = true)
     private String actionType;
 
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "action", cascade = CascadeType.ALL)
+    private List<Visitor> visitors;
 
     public Action(String actionType) {
         this.actionType = actionType;
