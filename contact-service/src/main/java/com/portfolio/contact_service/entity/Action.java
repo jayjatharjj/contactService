@@ -1,5 +1,6 @@
 package com.portfolio.contact_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.google.type.DateTime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,7 @@ public class Action {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "action", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Visitor> visitors;
 
     public Action(String actionType) {

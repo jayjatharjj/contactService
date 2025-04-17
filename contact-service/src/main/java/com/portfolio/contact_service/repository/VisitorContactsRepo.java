@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VisitorContactsRepo extends JpaRepository<VisitorContact, Integer> {
+
 }

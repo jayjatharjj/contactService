@@ -1,5 +1,6 @@
 package com.portfolio.contact_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.google.type.DateTime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class VisitorContact {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visitor_id", nullable = false)
+    @JsonBackReference
     private Visitor visitor;
 
     @Column(nullable = false)
@@ -35,4 +37,10 @@ public class VisitorContact {
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    public VisitorContact(Visitor visitor, String subject, String body) {
+        this.visitor = visitor;
+        this.subject = subject;
+        this.body = body;
+    }
 }
