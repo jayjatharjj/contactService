@@ -38,4 +38,9 @@ public class PortfolioMailService {
         EmailDetails emailDetails = new EmailDetails("jayjatharjj@gmail.com", updatedSubject, body);
         emailSender.sendPortfolioMail(emailDetails);
     }
+
+    public void sendErrorEmail(String subject, String body) {
+        EmailDetails emailDetails = new EmailDetails("jayjatharjj@gmail.com", subject, body);
+        emailSender.sendPortfolioMail(emailDetails);
+    }
 }
