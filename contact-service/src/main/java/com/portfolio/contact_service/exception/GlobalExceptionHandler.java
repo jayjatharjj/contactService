@@ -12,8 +12,7 @@ import java.util.logging.Logger;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @Autowired
-    private Logger log;
+    private static final Logger log = Logger.getLogger(GlobalExceptionHandler.class.getName());
 
     @Autowired
     private PortfolioMailService portfolioMailService;
